@@ -1,6 +1,6 @@
-#Laravel Docker Setup
+# Laravel Docker Setup
 
-##Setup
+## Setup
 
 Create a fresh laravel project by running:
 
