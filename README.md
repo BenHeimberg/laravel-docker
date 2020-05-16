@@ -1,6 +1,6 @@
 #Laravel Docker Setup
 
-###Setup
+##Setup
 
 Create a fresh laravel project by running:
 
@@ -9,7 +9,7 @@ Create a fresh laravel project by running:
 or pull an existing project into the `src` folder located in the root of the project.
 
 
-### Development
+## Development
 `docker-compose up -d` to start the containers.
 
 ----
