@@ -4,19 +4,6 @@ networks:
     laravel:
 
 services:
-    # httpd:
-    #     image: httpd:alpine
-    #     container_name: apache
-    #     ports:
-    #         - 8088:80
-    #     depends_on:
-    #         - php
-    #         - mysql
-    #     volumes:
-    #         - ./src:/var/www/html
-    #         - ./httpd/laravel.conf:/etc/apache2/sites-available/laravel.conf
-    #     networks:
-    #         - laravel
     nginx:
         image: nginx:stable-alpine
         container_name: nginx
@@ -49,6 +36,16 @@ services:
             SERVICE_NAME: mysql
         networks:
             - laravel
+
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        networks:
+            - laravel
+        environment:
+           PMA_HOST: mysql
+        ports:
+            - 8081:80
 
     php:
         build:
