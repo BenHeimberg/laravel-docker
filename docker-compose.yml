@@ -28,12 +28,21 @@ services:
         volumes:
             - ./mysql:/var/lib/mysql
         environment:
-            MYSQL_DATABASE: docker
-            MYSQL_USER: root
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: secret
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+        networks:
+            - laravel
+
+    mysql_testing:
+        image: mysql:8.0.20
+        container_name: mysql_testing
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
         networks:
             - laravel
 
@@ -89,5 +98,19 @@ services:
             - mysql
         working_dir: /var/www/html
         entrypoint: ['/var/www/html/artisan']
+        networks:
+            - laravel
+
+    phpunit:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: phpunit
+        volumes:
+            - ./src:/var/www/html
+        depends_on:
+            - mysql_testing
+        working_dir: /var/www/html
+        entrypoint: ['vendor/bin/phpunit']
         networks:
             - laravel
